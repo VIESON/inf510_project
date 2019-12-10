@@ -64,13 +64,13 @@ def fetchCountry(source):
 
         df = pd.DataFrame.from_dict(result_dict)
 
-        df.to_csv("./data/CountryInitial.csv")
+        df.to_csv("../data/CountryInitial.csv")
         print('############################## Fetch CountryInitial successful.')
 
         return result_dict
     elif (source == "local"):
         try:
-            df = pd.read_csv("./data/CountryInitial.csv")
+            df = pd.read_csv("../data/CountryInitial.csv")
             print('############################## Local CountryInitial has been loaded.')
             return df.to_dict('list')
         except:
@@ -124,8 +124,8 @@ def fetchHoildyDaysCounts(source, year, countryCode):
             # print('failed')
             count = 0
 
-        dataframeHoildyDays.to_csv(f'./data/publicholidays/HoildyDays-{year}-{countryCode}.csv')
-        dataframeLongWeek.to_csv(f'./data/LongWeeks/LongWeeks-{year}-{countryCode}.csv')
+        dataframeHoildyDays.to_csv(f'../data/publicholidays/HoildyDays-{year}-{countryCode}.csv')
+        dataframeLongWeek.to_csv(f'../data/LongWeeks/LongWeeks-{year}-{countryCode}.csv')
 
         print('############################## Fetch HoildyDays & LongWeeks finish.')
         return count, dayCountNumber
@@ -134,8 +134,8 @@ def fetchHoildyDaysCounts(source, year, countryCode):
         dayCountNumber = 0
 
         try:
-            dataframeHoildyDays = pd.read_csv(f'./data/publicholidays/HoildyDays-{year}-{countryCode}.csv')
-            dataframeLongWeek = pd.read_csv(f'./data/LongWeeks/LongWeeks-{year}-{countryCode}.csv')
+            dataframeHoildyDays = pd.read_csv(f'../data/publicholidays/HoildyDays-{year}-{countryCode}.csv')
+            dataframeLongWeek = pd.read_csv(f'../data/LongWeeks/LongWeeks-{year}-{countryCode}.csv')
             count = len(dataframeHoildyDays.values.tolist())
             for index, row in dataframeLongWeek.iterrows():
                 dayCountNumber += row['dayCount']
@@ -167,7 +167,7 @@ def fetchGdpByYearToList(source, year):
         #         comp.append(country_lst[i], year_gdp_lst[i])
 
             result = pd.DataFrame({'Rank': range(1, len(country_tree)+1)[0:50], 'Name': range(1, len(country_tree)+1)[0:50], 'Initial': country_lst[0:50], 'Year GDP': year_gdp_lst[0:50]})
-            result.to_csv(f'./data/gdpByYear/fetchGdpByYearToList-{year}.csv', index=False)
+            result.to_csv(f'../data/gdpByYear/fetchGdpByYearToList-{year}.csv', index=False)
             print('############################## Fetch GdpByYear finish.')
         except:
             result = pd.DataFrame({'Rank': [], 'Name': [], 'Initial': [], 'Year GDP': []})
@@ -176,7 +176,7 @@ def fetchGdpByYearToList(source, year):
         return result
     elif (source == "local"):
         try:
-            result = pd.read_csv(f'/data/gdpByYear/fetchGdpByYearToList-{year}.csv')
+            result = pd.read_csv(f'../data/gdpByYear/fetchGdpByYearToList-{year}.csv')
             print('############################## Local GdpByYear has been loaded.')
             return result
         except:
@@ -216,7 +216,7 @@ def mainFunc(source, start, end):
         gdpDataFrame['Initial'] = twoInitialTemp
         gdpDataFrame['Holiday Count'] = holidayTemp
         gdpDataFrame['Long Week days'] = dayCountTemp
-        gdpDataFrame.to_csv(f'./data/gdpDataFrame/gdpDataFrame-{year}.csv',index=False)
+        gdpDataFrame.to_csv(f'../data/gdpDataFrame/gdpDataFrame-{year}.csv',index=False)
     
     print(f'Sample - {end} GDP Table')
     print(gdpDataFrame)
@@ -231,7 +231,7 @@ if __name__ == "__main__":
 
 
 for year in range(2014,2019):
-    tempdf = pd.read_csv(f'./data/gdpDataFrame/gdpDataFrame-{year}.csv')
+    tempdf = pd.read_csv(f'../data/gdpDataFrame/gdpDataFrame-{year}.csv')
     fig,ax=plt.subplots()
     ax.bar(tempdf["Name"],tempdf["Holiday Count"])
     ax.set_xlabel("Name")  #设置x轴标签
@@ -256,7 +256,7 @@ def trimZero(df):
     return df[df['Holiday Count'] != 0]
 
     for year in range(2014,2019):
-        tempdf = pd.read_csv(f'./data/gdpDataFrame/gdpDataFrame-{year}.csv')
+        tempdf = pd.read_csv(f'../data/gdpDataFrame/gdpDataFrame-{year}.csv')
         tempdf = trimZero(tempdf)
         plt.figure(figsize=(15,5))
         plt.plot(tempdf['Name'],tempdf['Long Week days'],'blue', marker='.',label='Long Week days',linewidth=1)
@@ -270,7 +270,7 @@ def trimZero(df):
     return df[df['Holiday Count'] != 0]
 
 for year in range(2014,2019):
-    tempdf = pd.read_csv(f'./data/gdpDataFrame/gdpDataFrame-{year}.csv')
+    tempdf = pd.read_csv(f'../data/gdpDataFrame/gdpDataFrame-{year}.csv')
     tempdf = trimZero(tempdf)
     plt.figure(figsize=(15,5))
     plt.plot(tempdf['Name'],tempdf['Holiday Count'],'red', marker='.',label='Holiday Count',linewidth=1)
@@ -287,7 +287,7 @@ def trimZero(df):
 # import matplotlib.pyplot as plt
 # from matplotlib.ticker import MultipleLocator, FormatStrFormatter
 for year in range(2014,2019):
-    tempdf = pd.read_csv(f'./data/gdpDataFrame/gdpDataFrame-{year}.csv')
+    tempdf = pd.read_csv(f'../data/gdpDataFrame/gdpDataFrame-{year}.csv')
     tempdf = trimZero(tempdf)
 # plt.scatter(tempdf['Name'],tempdf['Long Week days'],color='blue',label='Long Week days',alpha=0.8)
 # plt.plot(tempdf['Name'],tempdf['Long Week days'],'red', marker='*',label='Top 50 GDP Country Ranking in 2014-2018')
